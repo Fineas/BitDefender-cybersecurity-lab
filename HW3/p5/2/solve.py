@@ -1,3 +1,7 @@
+# !!!
+# NOTE this soltion only allows you to send 1 message because when the dll is exited the program will crash (some adjustments need to be done to the patch in order to work well)
+# !!!
+
 '''
 plan:
 void convert(char *num) {
@@ -124,10 +128,18 @@ patch = patch.encode('hex')
 t = iter(patch)
 patch = ' '.join(a+b for a,b in zip(t, t))
 patch = patch.split(' ')
-for i in 
-print len(patch)
+for i in range(len(patch)/16+1):
+        print ' '.join(patch[i*16:(i+1)*16])
+print 'LEN=',len(patch)
 
-# because there are 0x10 bytes between MessengerSend and DllMain, I will use this space to shift the call to MessageBox and the function prologue lower thus gaining new space for a call to my function which replaces ana with ion
-# 16 - 5
-# 6A 00 68 B0 18 00 10 56 6A 00 FF 15 88 18 00 10
-# 5F 5E 5B 5D C2 08 | 00 CC CC CC CC CC CC CC B8 01
+###################### insert the sequence from above into the .dll to replace "ana" with "ion"
+
+# push esi = 56
+# call function = E8 52 FF FF FF
+# call message_box = 6A 00 68 B0 18 00 10 56 6A 00 FF 15 88 18 00 10
+# return from function = 5F 5E 5B 5D C2 08 00
+
+patch2 = '56 E8 52 FF FF FF 6A 00 68 B0 18 00 10 56 6A 00'
+patch2 += 'FF 15 88 18 00 10 5F 5E 5B 5D C2 08 00'
+
+###################### insert the patch from above inside the MessageSend function to invoke the prevous patch on the payload
